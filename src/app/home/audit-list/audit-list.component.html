@@ -1,0 +1,87 @@
+<div class="title">
+  <a (click)="goBack()" class="get-back">
+    <i class="fa fa-angle-left" aria-hidden="true"></i>
+  </a>
+  <span class="h6">审核列表</span>
+</div>
+<div class="container">
+  <div class="review-status">
+    <div class="review-status-title">
+      <span>注册审核</span>
+    </div>
+    <div class="review-status-table">
+      <table class="table">
+        <thead style="background: #EDFFFF;">
+        <tr>
+          <th>序号</th>
+          <th colspan="2">会员/微信/手机</th>
+          <th>申请时间</th>
+          <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let list of auditList">
+          <td #tdid>{{list.id}}</td>
+          <td colspan="2" style="padding-right: 0">
+            <p>昵称：{{list.name}}</p>
+            <p>微信：{{list.weixin}}</p>
+            <p>电话：{{list.phone}}</p>
+          </td>
+          <td>{{list.createTime}}</td>
+          <td>
+            <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
+            <button class="btn btn-danger" (click)=" onClick(tdid,list.status == 2 );openModal(template)" [hidden]="list.status == 2">点击审核</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+  </div>
+  <div class="review-status">
+    <div class="review-status-title">
+      <span>升级审核</span>
+    </div>
+    <div class="review-status-table">
+      <table class="table">
+        <thead style="background: #EDFFFF;">
+          <tr>
+          <th>序号</th>
+          <th colspan="2">会员/微信/手机</th>
+          <th>申请时间</th>
+          <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let list of auditUpList">
+          <td #tdid>{{list.id}}</td>
+          <td colspan="2" style="padding-right: 0">
+            <p>昵称：{{list.name}}</p>
+            <p>微信：{{list.weixin}}</p>
+            <p>电话：{{list.phone}}</p>
+          </td>
+          <td>{{list.createTime}}</td>
+          <td>
+            <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
+            <button class="btn btn-danger" (click)=" onClick(tdid,list.status == 2 );openModal(template)" [hidden]="list.status == 2">点击审核</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+  </div>
+  <div class="">
+    <a [routerLink]="['/login']" class="btn btn-danger btn-block">安全退出</a>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-body">
+    <h5 class=" text-info text-center">确认通过吗？</h5>
+    <div class="btn-box text-center">
+      <button type="button" class="btn btn-info"  (click)="onModalClick(tdid);modalRef.hide()">确认</button>
+      <button type="button" class="btn btn-danger"  (click)="modalRef.hide()">取消</button>
+    </div>
+  </div>
+</ng-template>
+

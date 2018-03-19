@@ -1,0 +1,54 @@
+<div class="title">
+  <a (click)="goBack()" class="get-back">
+    <i class="fa fa-angle-left" aria-hidden="true"></i>
+  </a>
+  <span class="h6">{{title}}</span>
+</div>
+<div class="container">
+  <div class="review-status">
+    <div class="review-status-table">
+      <table class="table">
+        <thead style="background: #EDFFFF;">
+        <tr>
+          <th>序号</th>
+          <th colspan="2">会员/微信/手机</th>
+          <th>级别</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>001</td>
+          <td colspan="2" style="padding-right: 0">
+            <p>会员昵称：撒大大的多大</p>
+            <p>微信账号：135484546465</p>
+            <p>联系电话：135484546465</p>
+          </td>
+          <td>2级</td>
+        </tr>
+        <tr>
+          <td>002</td>
+          <td colspan="2" style="padding-right: 0">
+            <p>会员昵称：撒大大的多大</p>
+            <p>微信账号：135484546465</p>
+            <p>联系电话：135484546465</p>
+          </td>
+          <td>3级</td>
+        </tr>
+        <tr>
+          <td>003</td>
+          <td colspan="2" style="padding-right: 0">
+            <p>会员昵称：撒大大的多大</p>
+            <p>微信账号：135484546465</p>
+            <p>联系电话：135484546465</p>
+          </td>
+          <td>4级</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+  </div>
+  <div class="">
+    <a [routerLink]="['/login']" class="btn btn-danger btn-block">安全退出</a>
+  </div>
+</div>
