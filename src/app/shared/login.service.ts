@@ -22,24 +22,35 @@ export class LoginService {
   }
   // 获取注册审核列表
   public getAuditData(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/auditList', {params});
   }
   // 注册审核接口
   public goAudit(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/doAuditList', {params});
   }
 
-  // 获取升级审核接口
+  // 升级接口
+  public GradeUp(params): Observable<any> {
+    return this.http.get('/api/user/clickUpGrade', {params});
+  }
+
+  // 获取升级审核列表
   public getUpAudit(params): Observable<any> {
-    console.log(params);
-    return this.http.get('/api/user/upGradeListTest', {params});
+    return this.http.get('/api/user/upGradeList', {params});
   }
 
   // 获取升级审核接口
   public goUpAudit(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/doUpGradeList', {params});
+  }
+
+  // 直接人数
+  public numberDirect(params): Observable<any> {
+    return this.http.get('/api/user/selectSubordinate', {params});
+  }
+
+  // 上级好友
+  public superiorPerson(params): Observable<any> {
+    return this.http.get('/api/user/selectFriend', {params});
   }
 }

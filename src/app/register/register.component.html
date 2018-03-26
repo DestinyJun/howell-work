@@ -2,8 +2,9 @@
   <a [routerLink]="['/login']" class="get-back">
     <i class="fa fa-angle-left" aria-hidden="true"></i>
   </a>
-  <span class="h6">欢迎您加入好人缘</span>
+  <span class="h6">欢迎您加入浩仁缘</span>
 </div>
+<h4 class="text-danger">扫码注册，欢迎加入{{name}}的团队！</h4>
 <form [formGroup]="formModel" (submit)="onSubmit()" class="forms" novalidate>
   <div class="form-group">
     <label for="name">昵称</label>
@@ -29,10 +30,7 @@
   </div>
   <div class="form-group">
     <label for="inviteCode">邀请码</label>
-    <input  formControlName="inviteCode" type="text" class="form-control" id="inviteCode" placeholder="请输入邀请码">
-    <div [hidden]="formModel.get('inviteCode').valid || formModel.get('inviteCode').untouched">
-      <div style="color: red" [hidden]="!formModel.hasError('required', 'inviteCode')">昵称是必填项</div>
-    </div>
+    <input  formControlName="inviteCode" type="text" class="form-control" id="inviteCode" [value]="inviteCode" disabled>
   </div>
   <div class="form-group">
       <label for="password">密码</label>

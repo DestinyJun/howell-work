@@ -12,6 +12,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {LoginService} from './shared/login.service';
 import {AuditListComponent} from './home/audit-list/audit-list.component';
 import { FriendInfoComponent } from './home/friend-info/friend-info.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { QrcodeComponent } from './home/qrcode/qrcode.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { FriendInfoComponent } from './home/friend-info/friend-info.component';
     HomeComponent,
     AuditListComponent,
     FriendInfoComponent,
+    QrcodeComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { FriendInfoComponent } from './home/friend-info/friend-info.component';
     FormsModule,
     ReactiveFormsModule,
     AlertModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    QRCodeModule
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]

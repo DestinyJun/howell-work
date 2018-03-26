@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {mobileValidators, mobileAsyncValidators, equalValidators } from '../validator/Validators';
 import {LoginService} from '../shared/login.service';
-import {Route, Router} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,20 +10,25 @@ import {Route, Router} from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  public inviteCode: string;
+  public name: string;
   public errorMessage: string;
   public errorHidden: boolean;
-  formModel: FormGroup;
+  public formModel: FormGroup;
   constructor(
+    private routerInfo: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private loginService: LoginService
   ) {
+    this.inviteCode = this.routerInfo.snapshot.params['invitecode'];
+    this.name = this.routerInfo.snapshot.params['name'];
     this.errorHidden = true;
     this.formModel = fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       phone: ['', [mobileValidators]],
       weixin: ['', [Validators.required]],
-      inviteCode: ['', [Validators.required]],
+      inviteCode: [this.inviteCode],
       password: ['', [Validators.required, Validators.minLength(6)]],
       pconfirm: ['', [Validators.required, Validators.minLength(6)]]
     });
@@ -31,9 +36,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {}
   public onSubmit(): void {
-    console.log(this.formModel.value);
     this.loginService.getRegister(this.formModel.value).subscribe((date) => {
-      console.log(date);
       this.errorMessage = date.msg;
       this.errorHidden = date.success;
       if (date.success) {

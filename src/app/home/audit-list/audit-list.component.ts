@@ -10,12 +10,14 @@ import {LoginService} from '../../shared/login.service';
   styleUrls: ['./audit-list.component.css']
 })
 export class AuditListComponent implements OnInit {
+  //参数字段
   public loginNameValue: string;
   public loginName: {};
   // 本地字段
   public modalId: {};
+  public upId: {};
   public auditList: Array<any>;
-  public auditUpList: Array<any>;
+  public upList: Array<any>;
   modalRef: BsModalRef;
   constructor(
     private routeInfo: ActivatedRoute,
@@ -26,36 +28,60 @@ export class AuditListComponent implements OnInit {
   ngOnInit() {
     this.loginNameValue = this.routeInfo.snapshot.params['loginName'];
     this.loginName = {loginName: this.loginNameValue};
-    console.log( this.loginName);
+
+    // 注册审核列表
     this.loginService.getAuditData(this.loginName).subscribe(
       (val) => {
        this.auditList = val.rows;
-        console.log(this.auditList);
       }
     );
+
+    // 升级审核列表
     this.loginService.getUpAudit(this.loginName).subscribe(
       (val) => {
-        // this.auditUpList = val.rows;
-        console.log(val);
+        this.upList = val.rows;
       }
     );
   }
+  // 打开弹窗
   public openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template);
   }
+  // 返回上级路由
   public goBack(): void {
     this.location.back();
   }
-  public onClick(tdid): void {
+  //  注册审核
+  public auditClick(tdid): void {
     this.modalId = {id: parseInt(tdid.innerText)};
     console.log(this.modalId);
   }
-  public onModalClick(): void {
+
+  // 升级审核
+  public upClick(uptdid): void {
+    this.upId = {id: parseInt(uptdid.innerText)};
+    console.log(this.upId);
+  }
+
+  // 注册审核确认
+  public onAudistClick(): void {
     this.loginService.goAudit(this.modalId).subscribe(
       value => {
-        console.log(value);
         if (value.success) {
+          window.location.reload();
+          window.alert(value.msg);
+        }
+      }
+    );
+  }
 
+  // 升级审核确认
+  public onUpGradeClick(): void {
+    this.loginService.goUpAudit(this.upId).subscribe(
+      value => {
+        if (value.success) {
+          window.location.reload();
+          window.alert(value.msg);
         }
       }
     );

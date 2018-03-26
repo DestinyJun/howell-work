@@ -5,13 +5,15 @@ import {RegisterComponent} from './register/register.component';
 import {HomeComponent} from './home/home.component';
 import {AuditListComponent} from './home/audit-list/audit-list.component';
 import {FriendInfoComponent} from './home/friend-info/friend-info.component';
+import {QrcodeComponent} from './home/qrcode/qrcode.component';
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'register/:invitecode/:name', component: RegisterComponent},
   {path: 'home/:loginName/:id', component: HomeComponent},
   {path: 'audit/:loginName', component: AuditListComponent},
-  {path: 'friend/:title', component: FriendInfoComponent}
+  {path: 'friend/:title/:loginName', component: FriendInfoComponent},
+  {path: 'qrcode/:name/:invitecode', component: QrcodeComponent}
 ];
 @NgModule({
   imports: [

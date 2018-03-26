@@ -1,10 +1,5 @@
-<!--<div class="modal-box" [hidden]="modalRef">
-  <div class="modal-box-content">
-    <h1>确认</h1>
-  </div>
-</div>-->
 <div class="header">
-  <a [routerLink]="['/audit']">
+  <a [routerLink]="['/audit',loginName]">
     <i class="fa fa-smile-o" aria-hidden="true"></i>
     <span>审核列表</span>
   </a>
@@ -13,9 +8,11 @@
   <a [routerLink]=""></a>
 </div>
 <div class="center-image">
-  <img class="img-responsive" src="../../assets/images/2018-03-12_184034.png" alt="">
+  <i></i>
+  <span class="text-danger text-left">您目前的等级是【{{grade}}】级，下一级升级为【{{grade+1}}】级需支付300元红包，如需升级请点击“申请升级”按钮,升级后将有资格结交更多朋友。</span>
 </div>
 <div class="container">
+  <!--会员资料-->
   <div class="member-info">
     <div class="member-info-title">
       <span>会员资料</span>
@@ -37,17 +34,24 @@
         <tr>
           <td>我的级别</td>
           <td>
-            <span class="lv">LV <span>{{grade}}</span></span>
+            <span class="lv">LV <span>{{grade==0?'管理员':grade}}</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td>邀 请 码</td>
+          <td>
+            <span>{{inviteCode}}</span>
           </td>
         </tr>
       </table>
     </div>
     <div class="member-info-btn">
-      <button class="btn btn-danger" (click)="openModal(template)">申请升级</button>
+      <button class="btn btn-danger" (click)="openModal(upGrade)">申请升级</button>
       <button class="btn btn-primary" (click)="openPerson(person)">修改资料</button>
     </div>
     <hr>
   </div>
+  <!--好友状况-->
   <div class="friends-status">
     <div class="friends-status-title">
       <span>好友状况</span>
@@ -55,36 +59,29 @@
     <div class="friends-status-table">
       <table class="table">
         <tr>
-          <td>邀请好友</td>
+          <td>直接人数</td>
           <td>
             <span style="color: red">3个</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a [routerLink]="['/friend', '邀请好友']">查看详细</a>
+            <a [routerLink]="['/friend', '直接人数',loginName]">查看详细</a>
           </td>
         </tr>
         <tr>
-          <td>直接好友</td>
+          <td>上级好友</td>
           <td>
             <span style="color: red">3个</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a [routerLink]="['/friend', '直接好友']">查看详细</a>
-          </td>
-        </tr>
-        <tr>
-          <td>已加好友</td>
-          <td>
-            <span style="color: red">3个</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a [routerLink]="['/friend','已加好友']">已加好友</a>
+            <a [routerLink]="['/friend','上级好友',loginName]">查看详细</a>
           </td>
         </tr>
       </table>
     </div>
     <div class="friends-status-btn">
-      <button class="btn btn-danger">邀请好友</button>
+      <a class="btn btn-danger" [routerLink]="['/qrcode',name,inviteCode ]">邀请好友</a>
     </div>
     <hr>
   </div>
+  <!--注册审核-->
   <div class="review-status">
     <div class="review-status-title">
       <span>注册审核</span>
@@ -93,23 +90,21 @@
       <table class="table">
         <thead style="background: #EDFFFF;">
         <tr>
-          <th colspan="2">会员/微信/手机</th>
+          <th>会员/微信/手机</th>
           <th>级别</th>
           <th>状态</th>
         </tr>
         </thead>
         <tbody>
           <tr *ngFor="let list of auditList">
-          <td #tdid>{{list.id}}</td>
-          <td colspan="2" style="padding-right: 0">
-            <p>昵称：{{list.name}}</p>
-            <p>微信：{{list.weixin}}</p>
-            <p>电话：{{list.phone}}</p>
-          </td>
-          <td>{{list.createTime}}</td>
-          <td>
-            <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
-            <button class="btn btn-danger" (click)=" onClick(tdid,list.status == 2 );openModal(template)" [hidden]="list.status == 2">点击审核</button>
+            <td>
+              <p>昵称：{{list.name}}</p>
+              <p>微信：{{list.weixin}}</p>
+              <p>电话：{{list.phone}}</p>
+            </td>
+            <td #tdid>{{list.id}}</td>
+            <td>
+              <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
           </td>
         </tr>
         </tbody>
@@ -117,6 +112,7 @@
     </div>
     <hr>
   </div>
+  <!--升级审核-->
   <div class="review-status">
     <div class="review-status-title">
       <span>升级审核</span>
@@ -125,23 +121,21 @@
       <table class="table">
         <thead style="background: #EDFFFF;">
         <tr>
-          <th colspan="2">会员/微信/手机</th>
+          <th>会员/微信/手机</th>
           <th>级别</th>
           <th>状态</th>
         </tr>
         </thead>
         <tbody>
           <tr *ngFor="let list of auditUpList">
-          <td #tdid>{{list.id}}</td>
-          <td colspan="2" style="padding-right: 0">
+          <td>
             <p>昵称：{{list.name}}</p>
             <p>微信：{{list.weixin}}</p>
             <p>电话：{{list.phone}}</p>
           </td>
-          <td>{{list.createTime}}</td>
+          <td #tdid>{{list.id}}</td>
           <td>
             <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
-            <button class="btn btn-danger" (click)=" onClick(tdid,list.status == 2 );openModal(template)" [hidden]="list.status == 2">点击审核</button>
           </td>
         </tr>
         </tbody>
@@ -153,15 +147,17 @@
     <a [routerLink]="['/login']" class="btn btn-danger btn-block">安全退出</a>
   </div>
 </div>
-<ng-template #template>
+<!--升级弹窗-->
+<ng-template #upGrade>
   <div class="modal-body">
     <h5 class=" text-info text-center">确认要升级吗???</h5>
     <div class="btn-box text-center">
-      <button type="button" class="btn btn-info"  (click)="modalRef.hide()">确认</button>
+      <button type="button" class="btn btn-info"  (click)="clickUpGrade();modalRef.hide()">确认</button>
       <button type="button" class="btn btn-danger"  (click)="modalRef.hide()">取消</button>
     </div>
   </div>
 </ng-template>
+<!--注册弹窗-->
 <ng-template #person>
   <div class="modal-body">
     <h5 class=" text-info text-center">修改个人资料</h5>

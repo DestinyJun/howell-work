@@ -14,7 +14,7 @@
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
-/***************************************************************************************************
+/*****************************************浏览器兼容**********************************************************
  * BROWSER POLYFILLS
  */
 
@@ -67,7 +67,7 @@ import 'core-js/es7/reflect';
  */
 // (window as any).__Zone_enable_cross_context_check = true;
 
-/***************************************************************************************************
+/******************************************应用兼容入口*********************************************************
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.

@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
   public onSubmit() {
     if (this.myFromModule.valid) {
-      console.log(this.params);
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
           this.router.navigate(['/home', data.obj.loginName, data.obj.id]);
