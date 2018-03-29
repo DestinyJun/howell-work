@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {mobileValidators} from '../validator/Validators';
 import {Router} from '@angular/router';
+import {LocalStorageService} from '../shared/local-storage.service';
+import 'rxjs/Rx'
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private loginService: LoginService,
+    private localSessionStorage: LocalStorageService,
     private http: HttpClient
   ) {
     this.loginSuccess = true;
@@ -35,7 +38,14 @@ export class LoginComponent implements OnInit {
     if (this.myFromModule.valid) {
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
-          this.router.navigate(['/home', data.obj.loginName, data.obj.id]);
+          console.log(data.obj);
+          // this.loginService.getStore(data.obj);
+          for ( const i in data.obj) {
+            this.localSessionStorage.set(i, data.obj[i]);
+          }
+          // console.log(this.localSessionStorage.get('id'));
+          // this.router.navigate(['/home', data.obj.loginName, data.obj.id]);
+          this.router.navigate(['/home']);
         } else {
           this.loginSuccess = data.success;
           this.loginMsg = data.msg;

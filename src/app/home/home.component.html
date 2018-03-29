@@ -1,5 +1,5 @@
 <div class="header">
-  <a [routerLink]="['/audit',loginName]">
+  <a [routerLink]="['/audit',loginName,grade]">
     <i class="fa fa-smile-o" aria-hidden="true"></i>
     <span>审核列表</span>
   </a>
@@ -34,7 +34,7 @@
         <tr>
           <td>我的级别</td>
           <td>
-            <span class="lv">LV <span>{{grade==0?'管理员':grade}}</span></span>
+            <span class="lv">LV <span>{{gradeTxt}}</span></span>
           </td>
         </tr>
         <tr>
@@ -143,6 +143,38 @@
     </div>
     <hr>
   </div>
+  <!--人员管理-->
+  <div class="review-status" [hidden]="personState" >
+    <div class="review-status-title">
+      <span>人员管理</span>
+    </div>
+    <div class="review-status-table">
+      <table class="table">
+        <thead style="background: #EDFFFF;">
+        <tr>
+          <th>会员/微信/手机</th>
+          <th>级别</th>
+          <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let list of personList">
+          <td>
+            <p>昵称：{{list.name}}</p>
+            <p>微信：{{list.weixin}}</p>
+            <p>电话：{{list.phone}}</p>
+          </td>
+          <td #personId>{{list.id}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="personDelId(personId);openModal(personWin)">删除</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+  </div>
+  <!--安全推出-->
   <div class="">
     <a [routerLink]="['/login']" class="btn btn-danger btn-block">安全退出</a>
   </div>
@@ -182,6 +214,16 @@
     <hr>
     <div class="btn-box text-center">
       <button type="submit" class="btn btn-info"  (click)="onSubmit();modalRef.hide()">确认</button>
+      <button type="button" class="btn btn-danger"  (click)="modalRef.hide()">取消</button>
+    </div>
+  </div>
+</ng-template>
+<!--删除弹窗-->
+<ng-template #personWin>
+  <div class="modal-body">
+    <h5 class=" text-info text-center">确认要删除吗？</h5>
+    <div class="btn-box text-center">
+      <button type="button" class="btn btn-info"  (click)="personDel(personId);modalRef.hide()">确认</button>
       <button type="button" class="btn btn-danger"  (click)="modalRef.hide()">取消</button>
     </div>
   </div>

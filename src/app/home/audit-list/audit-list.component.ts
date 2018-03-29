@@ -10,12 +10,14 @@ import {LoginService} from '../../shared/login.service';
   styleUrls: ['./audit-list.component.css']
 })
 export class AuditListComponent implements OnInit {
-  //参数字段
+  // 参数字段
   public loginNameValue: string;
   public loginName: {};
   // 本地字段
+  public grade: number;
   public modalId: {};
   public upId: {};
+  public statusTxt: number;
   public auditList: Array<any>;
   public upList: Array<any>;
   modalRef: BsModalRef;
@@ -24,55 +26,74 @@ export class AuditListComponent implements OnInit {
     private loginService: LoginService,
     private modalService: BsModalService,
     private location: LocationStrategy
-  ) {}
-  ngOnInit() {
+  ) {
     this.loginNameValue = this.routeInfo.snapshot.params['loginName'];
+    this.grade = this.routeInfo.snapshot.params['grade'];
     this.loginName = {loginName: this.loginNameValue};
-
-    // 注册审核列表
-    this.loginService.getAuditData(this.loginName).subscribe(
-      (val) => {
-       this.auditList = val.rows;
-      }
-    );
+    if (this.grade > 0 ) {
+      // 注册审核列表(普通人）
+      this.loginService.getAuditDataInvite(this.loginName).subscribe(
+        (val) => {
+          this.auditList = val.rows;
+        }
+      );
+    } else {
+      // 注册审核列表(管理员）
+      this.loginService.getAuditDataMaster(this.loginName).subscribe(
+        (val) => {
+          this.auditList = val.rows;
+        }
+      );
+    }
 
     // 升级审核列表
     this.loginService.getUpAudit(this.loginName).subscribe(
       (val) => {
+        console.log(val);
         this.upList = val.rows;
       }
     );
   }
-  // 打开弹窗
-  public openModal(template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(template);
-  }
-  // 返回上级路由
-  public goBack(): void {
-    this.location.back();
-  }
-  //  注册审核
+  ngOnInit() {}
+
+  //  获取注册审核ID
   public auditClick(tdid): void {
-    this.modalId = {id: parseInt(tdid.innerText)};
+    this.modalId = {id: parseInt(tdid.innerText, 10)};
     console.log(this.modalId);
   }
 
-  // 升级审核
+  // 获取升级审核ID
   public upClick(uptdid): void {
-    this.upId = {id: parseInt(uptdid.innerText)};
+    this.upId = {id: parseInt(uptdid.innerText, 10)};
     console.log(this.upId);
   }
-
   // 注册审核确认
   public onAudistClick(): void {
-    this.loginService.goAudit(this.modalId).subscribe(
-      value => {
-        if (value.success) {
-          window.location.reload();
-          window.alert(value.msg);
+    if (this.grade > 0 ) {
+      // 注册普通审核确认
+      console.log('注册普通审核');
+      console.log(this.modalId);
+      this.loginService.goAuditInvite(this.modalId).subscribe(
+        value => {
+          if (value.success) {
+            window.location.reload();
+            window.alert(value.msg);
+          }
         }
-      }
-    );
+      );
+    } else {
+      // 注册管理员审核
+      console.log('注册管理员审核');
+      this.loginService.goAuditMaster(this.modalId).subscribe(
+        value => {
+          if (value.success) {
+            window.location.reload();
+            window.alert(value.msg);
+          }
+        }
+      );
+    }
+
   }
 
   // 升级审核确认
@@ -86,5 +107,15 @@ export class AuditListComponent implements OnInit {
       }
     );
   }
+
+  // 打开弹窗
+  public openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template);
+  }
+  // 返回上级路由
+  public goBack(): void {
+    this.location.back();
+  }
+
 }
 

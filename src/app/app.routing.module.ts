@@ -10,8 +10,9 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register/:invitecode/:name', component: RegisterComponent},
-  {path: 'home/:loginName/:id', component: HomeComponent},
-  {path: 'audit/:loginName', component: AuditListComponent},
+  // {path: 'home/:loginName/:id', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'audit/:loginName/:grade', component: AuditListComponent},
   {path: 'friend/:title/:loginName', component: FriendInfoComponent},
   {path: 'qrcode/:name/:invitecode', component: QrcodeComponent}
 ];

@@ -6,6 +6,7 @@
 </div>
 <div class="container">
   <div class="review-status">
+    <!--注册审核-->
     <div class="review-status-title">
       <span>注册审核</span>
     </div>
@@ -29,8 +30,7 @@
           </td>
           <td>{{list.createTime}}</td>
           <td>
-            <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
-            <button class="btn btn-danger" (click)="auditClick(tdid,list.status == 2 );openModal(audit)" [hidden]="list.status == 2">点击审核</button>
+            <button class="btn btn-danger" (click)="auditClick(tdid,list.upgradeStatus == 0 );openModal(audit)">点击审核</button>
           </td>
         </tr>
         </tbody>
@@ -38,6 +38,7 @@
     </div>
     <hr>
   </div>
+  <!--升级审核-->
   <div class="review-status">
     <div class="review-status-title">
       <span>升级审核</span>
@@ -62,8 +63,7 @@
           </td>
           <td>{{list.createTime}}</td>
           <td>
-            <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
-            <button class="btn btn-danger" (click)="upClick(upTdid,list.status == 2 );openModal(upGrade)" [hidden]="list.status == 2">点击审核</button>
+            <button class="btn btn-danger" (click)="auditClick(tdid,list.status == 2 );openModal(audit)">点击审核</button>
           </td>
         </tr>
         </tbody>

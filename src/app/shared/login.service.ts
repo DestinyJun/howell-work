@@ -4,29 +4,49 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class LoginService {
-  // 用户信息字段 路由读取
-  public id: number;
-  public loginName: string;
+  // 用户信息字段
+  public loginInfo: LoginInfo;
+  public getStore(obj): void {
+    this.loginInfo = obj;
+  }
+  public goStore(): LoginInfo {
+    return this.loginInfo;
+  }
   constructor(private http: HttpClient) { }
+  // 登陆
   public getLogin(params): Observable<any> {
     return this.http.get('/api/loginWeb', {params});
   }
+  // 注册
   public getRegister(params): Observable<any> {
     return this.http.get('/api/user/addUser', {params});
   }
+  // 获取个人信息
   public getPerson(params): Observable<any> {
     return this.http.get('/api/user/selectPersonal', {params});
   }
   public modifiedData(params): Observable<any> {
     return this.http.get('/api/user/updatePersonal', {params});
   }
-  // 获取注册审核列表
-  public getAuditData(params): Observable<any> {
-    return this.http.get('/api/user/auditList', {params});
+  // 获取注册审核列表（普通人员）
+  public getAuditDataInvite(params): Observable<any> {
+    return this.http.get('/api/user/auditListByInvite', {params});
   }
-  // 注册审核接口
-  public goAudit(params): Observable<any> {
-    return this.http.get('/api/user/doAuditList', {params});
+
+  // 获取注册审核列表（管理员）
+  public getAuditDataMaster(params): Observable<any> {
+    return this.http.get('/api/user/auditListByMaster', {params});
+  }
+
+  // 注册审核确认(普通人员)
+  public goAuditInvite(params): Observable<any> {
+    console.log(params);
+    return this.http.get('/api/user/doAuditByInvite', {params});
+  }
+
+  // 注册审核确认(管理员)
+  public goAuditMaster(params): Observable<any> {
+    return this.http.get('/api/user/doAuditMaster', {params});
   }
 
   // 升级接口
@@ -39,7 +59,7 @@ export class LoginService {
     return this.http.get('/api/user/upGradeList', {params});
   }
 
-  // 获取升级审核接口
+  // 升级审核接口
   public goUpAudit(params): Observable<any> {
     return this.http.get('/api/user/doUpGradeList', {params});
   }
@@ -53,4 +73,23 @@ export class LoginService {
   public superiorPerson(params): Observable<any> {
     return this.http.get('/api/user/selectFriend', {params});
   }
+
+  // 获取所有人员列表
+  public getPersonList(params): Observable<any> {
+    return this.http.get('/api/user/selectAll', {params});
+  }
+
+  // 删除会员
+  public delPerson(params): Observable<any> {
+    return this.http.get('/api/user/deleteUserById', {params});
+  }
+}
+export class LoginInfo {
+  constructor (
+    public id: number,
+    public loginName: string,
+    public name: string,
+    public phone: string,
+    public weixin: string
+  ) {}
 }

@@ -14,6 +14,7 @@ import {AuditListComponent} from './home/audit-list/audit-list.component';
 import { FriendInfoComponent } from './home/friend-info/friend-info.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { QrcodeComponent } from './home/qrcode/qrcode.component';
+import {LocalStorageService} from './shared/local-storage.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { QrcodeComponent } from './home/qrcode/qrcode.component';
     ModalModule.forRoot(),
     QRCodeModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

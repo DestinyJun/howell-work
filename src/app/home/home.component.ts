@@ -3,6 +3,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../shared/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {LocalStorageService, LoginNamePersonJson} from '../shared/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -10,15 +11,24 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  // 用户信息字段 路由读取
+  // 用户登陆信息字段
   public id: number;
   public loginName: string;
-  // 后台读取
   public name: string;
   public weixin: string;
+  public phone: string;
+  // 用户基本信息字段
   public grade: number;
   public inviteCode: string;
-  // 修改信息字段
+  public inviteStatus: number;
+  public masterStatus: number;
+  public gradeTxt: string;
+  // 人员管理判断
+  public personState = true;
+  public personList: Array<any>;
+  // 被操会员的id
+  public personNameId: {};
+  // 修改信息表单
   public formModel: FormGroup;
   // 模态框
   public modalRef: BsModalRef;
@@ -26,40 +36,77 @@ export class HomeComponent implements OnInit {
   public auditList: Array<any>;
   // 升级列表
   public auditUpList: Array<any>;
-  public loginNameJson: {};
+  // 获取所有会员参数
+  public loginNamePersonJson: LoginNamePersonJson;
   constructor(
     private router: Router,
     private routeInfo: ActivatedRoute,
     private modalService: BsModalService,
     private fb: FormBuilder,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private localSessionStorage: LocalStorageService
   ) {
+    // console.log(this.loginService.goStore());
+    // this.loginName = this.routeInfo.snapshot.params['loginName'];
+    // this.id = this.routeInfo.snapshot.params['id'];
+    this.loginName = this.localSessionStorage.get('loginName');
+    this.id = parseInt(this.localSessionStorage.get('id'), 10);
+    this.name = this.localSessionStorage.get('name');
+    this.weixin = this.localSessionStorage.get('weixin');
+    // this.loginNameJson = {loginName: this.loginName};
+    this.loginNamePersonJson = new LoginNamePersonJson(this.loginName, 1, 5);
+    console.log(this.loginNamePersonJson.page);
+    // 修改信息表单
     this.formModel = fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      weixin: ['', [Validators.required]]
+      name: [this.name, [Validators.required, Validators.minLength(3)]],
+      weixin: [this.weixin, [Validators.required]]
     });
-    this.loginName = this.routeInfo.snapshot.params['loginName'];
-    this.id = this.routeInfo.snapshot.params['id'];
-    this.loginNameJson = {loginName: this.loginName};
     // 会员信息
     this.loginService.getPerson({loginName: this.loginName}).subscribe((data) => {
-      this.name = data[0].name;
-      this.weixin = data[0].weixin;
       this.grade = data[0].grade;
       this.inviteCode = data[0].inviteCode;
+      this.inviteStatus = data[0].inviteStatus;
+      this.masterStatus = data[0].masterStatus;
+
+
+      // 获取注册列表
+      if (this.inviteStatus === 1 && this.masterStatus === 1) {
+        if ( this.grade === 0 ) {
+          this.gradeTxt = '管理员';
+          this.personState = false;
+        } else {
+          this.gradeTxt =  this.grade.toString();
+        }
+      } else {
+        this.gradeTxt = '未审核';
+      }
+      if (this.grade > 0 ) {
+        // 注册审核列表(普通人）
+        this.loginService.getAuditDataInvite({loginName: this.loginName}).subscribe(
+          (val) => {
+            console.log(val);
+            this.auditList = val.rows;
+          }
+        );
+      } else {
+        console.log('管理员');
+        // 注册审核列表(管理员）
+        this.loginService.getAuditDataMaster({loginName: this.loginName}).subscribe(
+          (val) => {
+            console.log(val);
+            this.auditList = val.rows;
+          }
+        );
+      }
     });
-    // 获取注册审核列表
-    this.loginService.getAuditData(this.loginNameJson).subscribe(
-      (val) => {
-        this.auditList = val.rows;
-      }
-    );
-    // 升级审核列表
-    this.loginService.getUpAudit(this.loginNameJson).subscribe(
-      (val) => {
-        this.auditUpList = val.rows;
-      }
-    );
+
+    // 获取所有会员列表
+     this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+       (val) => {
+         console.log(val);
+         this.personList = val.rows;
+       }
+     );
   }
 
   ngOnInit() {}
@@ -70,19 +117,38 @@ export class HomeComponent implements OnInit {
     this.modalRef = this.modalService.show(person);
   }
   public onSubmit(): void {
+    console.log(this.formModel.value);
     const paramsGroup = this.formModel.value;
     paramsGroup.id = this.id;
-    if (paramsGroup.weixin === '') {
-      paramsGroup.weixin = this .weixin;
-    }
     this.loginService.modifiedData(paramsGroup).subscribe((date) => {
       alert(date.msg);
     });
   }
   public clickUpGrade(): void {
-    this.loginService.GradeUp(this.loginNameJson).subscribe(
+    this.loginService.GradeUp({loginName: this.loginName}).subscribe(
       (value) => {
         if (value.success) {
+          window.alert(value.msg);
+        }
+      }
+    );
+  }
+  //  获取删除ID
+  public personDelId(personId): void {
+    this.personNameId = {
+      loginName: this.loginName,
+      id: parseInt(personId.innerText, 10)
+    };
+    console.log(this.personNameId);
+  }
+  // 删除确认
+  public personDel(): void {
+    this.loginService.delPerson(this.personNameId).subscribe(
+      value => {
+        if (value.success) {
+          window.location.reload();
+          window.alert(value.msg);
+        } else {
           window.alert(value.msg);
         }
       }
