@@ -15,6 +15,7 @@ import { FriendInfoComponent } from './home/friend-info/friend-info.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { QrcodeComponent } from './home/qrcode/qrcode.component';
 import {LocalStorageService} from './shared/local-storage.service';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {LocalStorageService} from './shared/local-storage.service';
     ModalModule.forRoot(),
     QRCodeModule
   ],
-  providers: [LoginService, LocalStorageService],
+  providers: [LoginService, LocalStorageService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

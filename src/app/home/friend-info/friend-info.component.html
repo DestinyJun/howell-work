@@ -10,14 +10,14 @@
       <table class="table">
         <thead style="background: #EDFFFF;">
         <tr>
-          <th>序号</th>
-          <th colspan="2">会员/微信/手机</th>
+          <th>申请时间</th>
+          <th>会员/微信/手机</th>
           <th>级别</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let list of personList">
-          <td #tdid>{{list.id}}</td>
+          <td #tdid>{{list.createTime}}</td>
           <td>
             <p>昵称：{{list.name}}</p>
             <p>微信：{{list.weixin}}</p>

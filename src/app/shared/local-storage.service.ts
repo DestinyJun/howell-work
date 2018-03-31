@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class LocalStorageService {
   public sessionStorage: any;
-
   constructor() {
     if (!sessionStorage) {
       throw new Error('Current browser does not support Local Storage');

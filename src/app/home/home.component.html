@@ -61,7 +61,7 @@
         <tr>
           <td>直接人数</td>
           <td>
-            <span style="color: red">3个</span>
+            <span style="color: red">{{friendPersonList?.length}}</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             <a [routerLink]="['/friend', '直接人数',loginName]">查看详细</a>
           </td>
@@ -69,7 +69,7 @@
         <tr>
           <td>上级好友</td>
           <td>
-            <span style="color: red">3个</span>
+            <span style="color: red">{{friendUpList?.length}}</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             <a [routerLink]="['/friend','上级好友',loginName]">查看详细</a>
           </td>
@@ -78,68 +78,6 @@
     </div>
     <div class="friends-status-btn">
       <a class="btn btn-danger" [routerLink]="['/qrcode',name,inviteCode ]">邀请好友</a>
-    </div>
-    <hr>
-  </div>
-  <!--注册审核-->
-  <div class="review-status">
-    <div class="review-status-title">
-      <span>注册审核</span>
-    </div>
-    <div class="review-status-table">
-      <table class="table">
-        <thead style="background: #EDFFFF;">
-        <tr>
-          <th>会员/微信/手机</th>
-          <th>级别</th>
-          <th>状态</th>
-        </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let list of auditList">
-            <td>
-              <p>昵称：{{list.name}}</p>
-              <p>微信：{{list.weixin}}</p>
-              <p>电话：{{list.phone}}</p>
-            </td>
-            <td #tdid>{{list.id}}</td>
-            <td>
-              <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <hr>
-  </div>
-  <!--升级审核-->
-  <div class="review-status">
-    <div class="review-status-title">
-      <span>升级审核</span>
-    </div>
-    <div class="review-status-table">
-      <table class="table">
-        <thead style="background: #EDFFFF;">
-        <tr>
-          <th>会员/微信/手机</th>
-          <th>级别</th>
-          <th>状态</th>
-        </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let list of auditUpList">
-          <td>
-            <p>昵称：{{list.name}}</p>
-            <p>微信：{{list.weixin}}</p>
-            <p>电话：{{list.phone}}</p>
-          </td>
-          <td #tdid>{{list.id}}</td>
-          <td>
-            <p class="text-center" [ngStyle]="{'color':list.status == 2?'red':'#17A2B8'}">{{list.status == 2?'已审核':'未审核'}}</p>
-          </td>
-        </tr>
-        </tbody>
-      </table>
     </div>
     <hr>
   </div>
@@ -158,15 +96,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let list of personList">
+        <tr *ngFor="let list of personList;let i=index">
           <td>
             <p>昵称：{{list.name}}</p>
             <p>微信：{{list.weixin}}</p>
             <p>电话：{{list.phone}}</p>
           </td>
-          <td #personId>{{list.id}}</td>
+          <td #personId>{{list.grade}}</td>
           <td>
-            <button class="btn btn-danger" (click)="personDelId(personId);openModal(personWin)">删除</button>
+            <button class="btn btn-danger" (click)="personDelId(i);openModal(personWin)">删除</button>
           </td>
         </tr>
         </tbody>

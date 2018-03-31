@@ -14,7 +14,6 @@
       <table class="table">
         <thead style="background: #EDFFFF;">
         <tr>
-          <th>序号</th>
           <th colspan="2">会员/微信/手机</th>
           <th>申请时间</th>
           <th>状态</th>
@@ -22,7 +21,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let list of auditList">
-          <td #tdid>{{list.id}}</td>
           <td colspan="2" style="padding-right: 0">
             <p>昵称：{{list.name}}</p>
             <p>微信：{{list.weixin}}</p>
@@ -47,7 +45,6 @@
       <table class="table">
         <thead style="background: #EDFFFF;">
           <tr>
-          <th>序号</th>
           <th colspan="2">会员/微信/手机</th>
           <th>申请时间</th>
           <th>状态</th>
@@ -55,7 +52,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let list of upList">
-          <td #upTdid>{{list.id}}</td>
           <td colspan="2" style="padding-right: 0">
             <p>昵称：{{list.name}}</p>
             <p>微信：{{list.weixin}}</p>

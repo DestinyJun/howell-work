@@ -32,10 +32,9 @@ export class HomeComponent implements OnInit {
   public formModel: FormGroup;
   // 模态框
   public modalRef: BsModalRef;
-  // 注册列表
-  public auditList: Array<any>;
-  // 升级列表
-  public auditUpList: Array<any>;
+  // 直接好友、上级人数
+  public friendPersonList: Array<{}>;
+  public friendUpList: Array<{}>;
   // 获取所有会员参数
   public loginNamePersonJson: LoginNamePersonJson;
   constructor(
@@ -44,7 +43,7 @@ export class HomeComponent implements OnInit {
     private modalService: BsModalService,
     private fb: FormBuilder,
     private loginService: LoginService,
-    private localSessionStorage: LocalStorageService
+    private localSessionStorage: LocalStorageService,
   ) {
     // console.log(this.loginService.goStore());
     // this.loginName = this.routeInfo.snapshot.params['loginName'];
@@ -55,7 +54,6 @@ export class HomeComponent implements OnInit {
     this.weixin = this.localSessionStorage.get('weixin');
     // this.loginNameJson = {loginName: this.loginName};
     this.loginNamePersonJson = new LoginNamePersonJson(this.loginName, 1, 5);
-    console.log(this.loginNamePersonJson.page);
     // 修改信息表单
     this.formModel = fb.group({
       name: [this.name, [Validators.required, Validators.minLength(3)]],
@@ -67,9 +65,6 @@ export class HomeComponent implements OnInit {
       this.inviteCode = data[0].inviteCode;
       this.inviteStatus = data[0].inviteStatus;
       this.masterStatus = data[0].masterStatus;
-
-
-      // 获取注册列表
       if (this.inviteStatus === 1 && this.masterStatus === 1) {
         if ( this.grade === 0 ) {
           this.gradeTxt = '管理员';
@@ -80,7 +75,8 @@ export class HomeComponent implements OnInit {
       } else {
         this.gradeTxt = '未审核';
       }
-      if (this.grade > 0 ) {
+      // 获取注册列表
+      /*if (this.grade > 0 ) {
         // 注册审核列表(普通人）
         this.loginService.getAuditDataInvite({loginName: this.loginName}).subscribe(
           (val) => {
@@ -97,16 +93,27 @@ export class HomeComponent implements OnInit {
             this.auditList = val.rows;
           }
         );
-      }
+      }*/
     });
 
     // 获取所有会员列表
      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
        (val) => {
-         console.log(val);
          this.personList = val.rows;
        }
      );
+    // 直接朋友个数
+    this.loginService.numberDirect({loginName: this.loginName}).subscribe(
+      (value) => {
+        this.friendPersonList = value.rows;
+      }
+    );
+    // 上级朋友个数
+    this.loginService.superiorPerson({loginName: this.loginName}).subscribe(
+      (value) => {
+        this.friendUpList = value.rows;
+      }
+    );
   }
 
   ngOnInit() {}
@@ -137,9 +144,9 @@ export class HomeComponent implements OnInit {
   public personDelId(personId): void {
     this.personNameId = {
       loginName: this.loginName,
-      id: parseInt(personId.innerText, 10)
+      id: this.personList[personId].id
     };
-    console.log(this.personNameId);
+    console.log(this.personList[personId].id);
   }
   // 删除确认
   public personDel(): void {
@@ -151,6 +158,7 @@ export class HomeComponent implements OnInit {
         } else {
           window.alert(value.msg);
         }
+       console.log(value);
       }
     );
   }
