@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private loginService: LoginService,
     private localSessionStorage: LocalStorageService,
-    private http: HttpClient
   ) {
     this.loginSuccess = true;
     this.myFromModule = fb.group({
@@ -38,13 +37,10 @@ export class LoginComponent implements OnInit {
     if (this.myFromModule.valid) {
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
-          console.log(data.obj);
-          // this.loginService.getStore(data.obj);
+          // 本地存储信息
           for ( const i in data.obj) {
             this.localSessionStorage.set(i, data.obj[i]);
           }
-          // console.log(this.localSessionStorage.get('id'));
-          // this.router.navigate(['/home', data.obj.loginName, data.obj.id]);
           this.router.navigate(['/home']);
         } else {
           this.loginSuccess = data.success;

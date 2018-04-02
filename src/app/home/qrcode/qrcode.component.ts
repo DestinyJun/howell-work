@@ -25,12 +25,11 @@ export class QrcodeComponent implements OnInit {
   ) {
     this.curWwwPath = window.document.location.href;
     this.pathName = window.document.location.pathname;
-    this.pos = this.curWwwPath.indexOf(this.pathName);
+    this.pos = this.curWwwPath.indexOf(this.pathName + '#');
     this.localhostPath = this.curWwwPath.substring(0, this.pos);
     this.inviteCode = this.routerInfo.snapshot.params['invitecode'];
     this.name = this.routerInfo.snapshot.params['name'];
-    this.localhostPathUrl = this.localhostPath + '/register' + '/' +  this.inviteCode + '/' + this.name;
-    console.log(this.localhostPathUrl);
+    this.localhostPathUrl = this.localhostPath + '/#' +  '/register' + '/' +  this.inviteCode + '/' + this.name;
   }
 
   ngOnInit() {

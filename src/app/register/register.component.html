@@ -10,24 +10,24 @@
     <label for="name">昵称</label>
     <input formControlName="name" type="text" class="form-control" id="name" placeholder="请输入与昵称">
   </div>
-  <!--<div [hidden]="formModel.get('name').valid || formModel.get('name').untouched">-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('required', 'name')">昵称是必填项</div>-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('minlength', 'name')">昵称最小长度为3</div>-->
-  <!--</div>-->
+  <div [hidden]="formModel.get('name').valid || formModel.get('name').untouched">
+    <div style="color: red" [hidden]="!formModel.hasError('required', 'name')">昵称是必填项</div>
+    <div style="color: red" [hidden]="!formModel.hasError('minlength', 'name')">昵称最小长度为3</div>
+  </div>
   <div class="form-group">
     <label for="phone">手机号</label>
     <input formControlName="phone" type="number" class="form-control" id="phone" placeholder="请输入手机号">
   </div>
-  <!--<div [hidden]="formModel.get('phone').valid || formModel.get('phone').untouched">-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('mobile', 'phone')">请输入正确的手机号</div>-->
-  <!--</div>-->
+  <div [hidden]="formModel.get('phone').valid || formModel.get('phone').untouched">
+    <div style="color: red" [hidden]="!formModel.hasError('mobile', 'phone')">请输入正确的手机号</div>
+  </div>
   <div class="form-group">
     <label for="weixin">微信号</label>
     <input formControlName="weixin" type="text" class="form-control" id="weixin" placeholder="请输入微信号">
   </div>
-  <!--<div [hidden]="formModel.get('weixin').valid || formModel.get('weixin').untouched">-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('required', 'weixin')">微信号是必填项</div>-->
-  <!--</div>-->
+  <div [hidden]="formModel.get('weixin').valid || formModel.get('weixin').untouched">
+    <div style="color: red" [hidden]="!formModel.hasError('required', 'weixin')">微信号是必填项</div>
+  </div>
   <div class="form-group">
     <label for="inviteCode">邀请码</label>
     <input  formControlName="inviteCode" type="text" class="form-control" id="inviteCode" [value]="inviteCode" disabled>
@@ -36,18 +36,18 @@
       <label for="password">密码</label>
       <input  formControlName="password" type="password" class="form-control" id="password" placeholder="请输入密码">
     </div>
-  <!--<div [hidden]="formModel.get('password').valid || formModel.get('password').untouched">-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('required', 'password')">密码是必填项</div>-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('minlength', 'password')">密码是必填项</div>-->
-  <!--</div>-->
+  <div [hidden]="formModel.get('password').valid || formModel.get('password').untouched">
+    <div style="color: red" [hidden]="!formModel.hasError('required', 'password')">密码是必填项</div>
+    <div style="color: red" [hidden]="!formModel.hasError('minlength', 'password')">密码是必填项</div>
+  </div>
   <div class="form-group">
     <label for="pconfirm">确认密码</label>
     <input  formControlName="pconfirm" type="password" class="form-control" id="pconfirm" placeholder="请再次输入密码">
   </div>
-  <!--<div [hidden]="formModel.get('pconfirm').valid || formModel.get('pconfirm').untouched">-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('required', 'pconfirm')">确认密码是必填项</div>-->
-    <!--<div style="color: red" [hidden]="!formModel.hasError('minlength', 'pconfirm')">确认密码是必填项</div>-->
-  <!--</div>-->
+  <div [hidden]="formModel.get('pconfirm').valid || formModel.get('pconfirm').untouched">
+    <div style="color: red" [hidden]="!formModel.hasError('required', 'pconfirm')">确认密码是必填项</div>
+    <div style="color: red" [hidden]="!formModel.hasError('minlength', 'pconfirm')">确认密码是必填项</div>
+  </div>
   <div style="color: red" [hidden]="errorHidden">{{errorMessage}}</div>
   <button type="button" class="btn btn-success btn-block" (click)="onSubmit()">注册</button>
 </form>

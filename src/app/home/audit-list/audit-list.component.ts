@@ -49,7 +49,6 @@ export class AuditListComponent implements OnInit {
     // 升级审核列表
     this.loginService.getUpAudit(this.loginName).subscribe(
       (val) => {
-        console.log(val);
         this.upList = val.rows;
       }
     );
@@ -59,20 +58,16 @@ export class AuditListComponent implements OnInit {
   //  获取注册审核ID
   public auditClick(tdid): void {
     this.modalId = {id: parseInt(tdid.innerText, 10)};
-    console.log(this.modalId);
   }
 
   // 获取升级审核ID
   public upClick(uptdid): void {
     this.upId = {id: parseInt(uptdid.innerText, 10)};
-    console.log(this.upId);
   }
   // 注册审核确认
   public onAudistClick(): void {
     if (this.grade > 0 ) {
       // 注册普通审核确认
-      console.log('注册普通审核');
-      console.log(this.modalId);
       this.loginService.goAuditInvite(this.modalId).subscribe(
         value => {
           if (value.success) {
@@ -83,7 +78,6 @@ export class AuditListComponent implements OnInit {
       );
     } else {
       // 注册管理员审核
-      console.log('注册管理员审核');
       this.loginService.goAuditMaster(this.modalId).subscribe(
         value => {
           if (value.success) {

@@ -124,7 +124,6 @@ export class HomeComponent implements OnInit {
     this.modalRef = this.modalService.show(person);
   }
   public onSubmit(): void {
-    console.log(this.formModel.value);
     const paramsGroup = this.formModel.value;
     paramsGroup.id = this.id;
     this.loginService.modifiedData(paramsGroup).subscribe((date) => {
@@ -146,7 +145,6 @@ export class HomeComponent implements OnInit {
       loginName: this.loginName,
       id: this.personList[personId].id
     };
-    console.log(this.personList[personId].id);
   }
   // 删除确认
   public personDel(): void {
@@ -158,7 +156,6 @@ export class HomeComponent implements OnInit {
         } else {
           window.alert(value.msg);
         }
-       console.log(value);
       }
     );
   }
