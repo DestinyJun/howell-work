@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginSuccess = true;
     this.myFromModule = fb.group({
-      username: ['', [Validators.required, mobileValidators] ],
+      username: ['', [Validators.required, mobileValidators]],
       password: ['' , [Validators.required, Validators.minLength(6)]]
     });
   }
