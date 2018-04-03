@@ -6,12 +6,13 @@ import {HomeComponent} from './home/home.component';
 import {AuditListComponent} from './home/audit-list/audit-list.component';
 import {FriendInfoComponent} from './home/friend-info/friend-info.component';
 import {QrcodeComponent} from './home/qrcode/qrcode.component';
+import {LoginGuard} from './guard/login.guard';
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register/:invitecode/:name', component: RegisterComponent},
   // {path: 'home/:loginName/:id', component: HomeComponent},
-  {path: 'home', component: HomeComponent},
+  {path: 'home', component: HomeComponent, canActivate: [LoginGuard]},
   {path: 'audit/:loginName/:grade', component: AuditListComponent},
   {path: 'friend/:title/:loginName', component: FriendInfoComponent},
   {path: 'qrcode/:name/:invitecode', component: QrcodeComponent}

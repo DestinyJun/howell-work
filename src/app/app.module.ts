@@ -15,6 +15,7 @@ import {RegisterComponent} from './register/register.component';
 import {AuditListComponent} from './home/audit-list/audit-list.component';
 import {FriendInfoComponent} from './home/friend-info/friend-info.component';
 import {QrcodeComponent} from './home/qrcode/qrcode.component';
+import {LoginGuard} from './guard/login.guard';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,9 @@ import {QrcodeComponent} from './home/qrcode/qrcode.component';
     ModalModule.forRoot(),
     QRCodeModule
   ],
-  providers: [LoginService, LocalStorageService,
-    {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [LoginService, LocalStorageService, LoginGuard,
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
