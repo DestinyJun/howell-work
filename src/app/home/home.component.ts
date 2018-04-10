@@ -139,6 +139,7 @@ export class HomeComponent implements OnInit {
       console.log(this.formModelUp.value);
       this.loginService.passwordUp(this.formModelUp.value).subscribe(
         value => {
+          console.log(value);
           if (value.success) {
             window.location.reload();
             window.alert(value.msg);

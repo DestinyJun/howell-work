@@ -25,7 +25,9 @@ export class LoginService {
   public getPerson(params): Observable<any> {
     return this.http.get('/api/user/selectPersonal', {params});
   }
+  // 修改信息
   public modifiedData(params): Observable<any> {
+    console.log(params);
     return this.http.get('/api/user/updatePersonal', {params});
   }
   // 获取注册审核列表（普通人员）
