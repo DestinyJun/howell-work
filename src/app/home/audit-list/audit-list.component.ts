@@ -15,12 +15,11 @@ export class AuditListComponent implements OnInit {
   public loginName: {};
   // 本地字段
   public grade: number;
-  public modalId: {};
-  public upId: {};
-  public statusTxt: number;
+  public modalId: number;
+  public upId: number;
   public auditList: Array<any>;
   public upList: Array<any>;
-  modalRef: BsModalRef;
+  public modalRef: BsModalRef;
   constructor(
     private routeInfo: ActivatedRoute,
     private loginService: LoginService,
@@ -49,6 +48,7 @@ export class AuditListComponent implements OnInit {
     // 升级审核列表
     this.loginService.getUpAudit(this.loginName).subscribe(
       (val) => {
+        console.log(val.rows);
         this.upList = val.rows;
       }
     );
@@ -56,19 +56,16 @@ export class AuditListComponent implements OnInit {
   ngOnInit() {}
 
   //  获取注册审核ID
-  public auditClick(tdid): void {
-    this.modalId = {id: parseInt(tdid.innerText, 10)};
+  public auditClick(id): void {
+    this.modalId = id;
   }
 
-  // 获取升级审核ID
-  public upClick(uptdid): void {
-    this.upId = {id: parseInt(uptdid.innerText, 10)};
-  }
   // 注册审核确认
   public onAudistClick(): void {
+    console.log('1');
     if (this.grade > 0 ) {
       // 注册普通审核确认
-      this.loginService.goAuditInvite(this.modalId).subscribe(
+      this.loginService.goAuditInvite({id: this.modalId}).subscribe(
         value => {
           if (value.success) {
             window.location.reload();
@@ -78,7 +75,8 @@ export class AuditListComponent implements OnInit {
       );
     } else {
       // 注册管理员审核
-      this.loginService.goAuditMaster(this.modalId).subscribe(
+      console.log(this.modalId);
+      this.loginService.goAuditMaster({id: this.modalId}).subscribe(
         value => {
           if (value.success) {
             window.location.reload();
@@ -90,9 +88,16 @@ export class AuditListComponent implements OnInit {
 
   }
 
+  // 获取升级审核ID
+  public upClick(id): void {
+    this.upId = id;
+    console.log(this.upId);
+  }
+
   // 升级审核确认
   public onUpGradeClick(): void {
-    this.loginService.goUpAudit(this.upId).subscribe(
+    console.log(this.upId);
+    this.loginService.goUpAudit({id: this.upId}).subscribe(
       value => {
         if (value.success) {
           window.location.reload();

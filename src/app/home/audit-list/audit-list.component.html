@@ -5,8 +5,8 @@
   <span class="h6">审核列表</span>
 </div>
 <div class="container">
+  <!--注册审核-->
   <div class="review-status">
-    <!--注册审核-->
     <div class="review-status-title">
       <span>注册审核</span>
     </div>
@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let list of auditList">
+          <tr *ngFor="let list of auditList" [hidden]="list.grade==0">
           <td colspan="2" style="padding-right: 0">
             <p>昵称：{{list.name}}</p>
             <p>微信：{{list.weixin}}</p>
@@ -28,7 +28,10 @@
           </td>
           <td>{{list.createTime}}</td>
           <td>
-            <button class="btn btn-danger" (click)="auditClick(tdid,list.upgradeStatus == 0 );openModal(audit)">点击审核</button>
+            <p [hidden]="this.grade ==0" class="text-center" [ngClass]="{'text-danger': true}">{{list.inviteStatus===0?'未审核':'已审核'}}</p>
+            <button [hidden]="this.grade ==0 || list.inviteStatus===1" class="btn btn-danger" (click)="auditClick(list.id);openModal(audit)">点击审核</button>
+            <p [hidden]="this.grade !=0" class="text-center" [ngClass]="{'text-danger': true}">{{list.masterStatus===0?'未审核':'已审核'}}</p>
+            <button [hidden]="this.grade !=0 || list.masterStatus===1" class="btn btn-danger" (click)="auditClick(list.id);openModal(audit)">点击审核</button>
           </td>
         </tr>
         </tbody>
@@ -59,7 +62,8 @@
           </td>
           <td>{{list.createTime}}</td>
           <td>
-            <button class="btn btn-danger" (click)="auditClick(tdid,list.status == 2 );openModal(audit)">点击审核</button>
+            <p class="text-center" [ngClass]="{'text-danger': true}">{{list.upgradeStatus===1?'未审核':'已通过'}}</p>
+            <button  [hidden]="list.upgradeStatus===2" class="btn btn-danger" (click)="upClick(list.id);openModal(upGrade)">点击审核</button>
           </td>
         </tr>
         </tbody>
@@ -67,24 +71,27 @@
     </div>
     <hr>
   </div>
+  <!--退出-->
   <div class="">
     <a [routerLink]="['/login']" class="btn btn-danger btn-block">安全退出</a>
   </div>
 </div>
+<!--注册弹窗-->
 <ng-template #audit>
   <div class="modal-body">
     <h5 class=" text-info text-center">注册确认通过吗？</h5>
     <div class="btn-box text-center">
-      <button type="button" class="btn btn-info"  (click)="onAudistClick(tdid);modalRef.hide()">确认</button>
+      <button type="button" class="btn btn-info"  (click)="onAudistClick();modalRef.hide()">确认</button>
       <button type="button" class="btn btn-danger"  (click)="modalRef.hide()">取消</button>
     </div>
   </div>
 </ng-template>
+<!--升级弹窗-->
 <ng-template #upGrade>
   <div class="modal-body">
     <h5 class=" text-info text-center">升级确认通过吗？</h5>
     <div class="btn-box text-center">
-      <button type="button" class="btn btn-info"  (click)="onUpGradeClick(tdid);modalRef.hide()">确认</button>
+      <button type="button" class="btn btn-info"  (click)="onUpGradeClick();modalRef.hide()">确认</button>
       <button type="button" class="btn btn-danger"  (click)="modalRef.hide()">取消</button>
     </div>
   </div>

@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   public onSubmit() {
     if (this.myFromModule.valid) {
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
+        console.log(data);
         if (data.success) {
           // 本地存储信息
           for ( const i in data.obj) {

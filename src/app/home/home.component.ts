@@ -27,9 +27,11 @@ export class HomeComponent implements OnInit {
   public personState = true;
   public personList: Array<any>;
   // 被操会员的id
-  public personNameId: {};
+  public personNameId: number;
+  public personPwd: {};
   // 修改信息表单
   public formModel: FormGroup;
+  public formModelUp: FormGroup;
   // 模态框
   public modalRef: BsModalRef;
   // 直接好友、上级人数
@@ -59,12 +61,17 @@ export class HomeComponent implements OnInit {
       name: [this.name, [Validators.required, Validators.minLength(3)]],
       weixin: [this.weixin, [Validators.required]]
     });
+    // 修改密码表单
+    this.formModelUp = fb.group({
+      pwd: ['', [Validators.required]]
+    });
     // 会员信息
     this.loginService.getPerson({loginName: this.loginName}).subscribe((data) => {
       this.grade = data[0].grade;
       this.inviteCode = data[0].inviteCode;
       this.inviteStatus = data[0].inviteStatus;
       this.masterStatus = data[0].masterStatus;
+      // this.localSessionStorage.set('grade', this.grade.toString());
       if (this.inviteStatus === 1 && this.masterStatus === 1) {
         if ( this.grade === 0 ) {
           this.gradeTxt = '管理员';
@@ -75,30 +82,12 @@ export class HomeComponent implements OnInit {
       } else {
         this.gradeTxt = '未审核';
       }
-      // 获取注册列表
-      /*if (this.grade > 0 ) {
-        // 注册审核列表(普通人）
-        this.loginService.getAuditDataInvite({loginName: this.loginName}).subscribe(
-          (val) => {
-            console.log(val);
-            this.auditList = val.rows;
-          }
-        );
-      } else {
-        console.log('管理员');
-        // 注册审核列表(管理员）
-        this.loginService.getAuditDataMaster({loginName: this.loginName}).subscribe(
-          (val) => {
-            console.log(val);
-            this.auditList = val.rows;
-          }
-        );
-      }*/
     });
 
     // 获取所有会员列表
      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
        (val) => {
+         console.log(val);
          this.personList = val.rows;
        }
      );
@@ -139,24 +128,25 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  //  获取删除ID
+  //  获取修改ID
   public personDelId(personId): void {
-    this.personNameId = {
-      loginName: this.loginName,
-      id: this.personList[personId].id
-    };
+    this.personNameId = personId;
   }
-  // 删除确认
+  // 修改确认
   public personDel(): void {
-    this.loginService.delPerson(this.personNameId).subscribe(
-      value => {
-        if (value.success) {
-          window.location.reload();
-          window.alert(value.msg);
-        } else {
-          window.alert(value.msg);
+    if (this.formModelUp.valid) {
+      this.formModelUp.value['id'] = this.personNameId;
+      console.log(this.formModelUp.value);
+      this.loginService.passwordUp(this.formModelUp.value).subscribe(
+        value => {
+          if (value.success) {
+            window.location.reload();
+            window.alert(value.msg);
+          } else {
+            window.alert(value.msg);
+          }
         }
-      }
-    );
+      );
+    }
   }
 }

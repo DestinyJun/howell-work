@@ -16,6 +16,7 @@ import {AuditListComponent} from './home/audit-list/audit-list.component';
 import {FriendInfoComponent} from './home/friend-info/friend-info.component';
 import {QrcodeComponent} from './home/qrcode/qrcode.component';
 import {LoginGuard} from './guard/login.guard';
+import { RegisterRsComponent } from './register-rs/register-rs.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {LoginGuard} from './guard/login.guard';
     AuditListComponent,
     FriendInfoComponent,
     QrcodeComponent,
+    RegisterRsComponent,
   ],
   imports: [
     BrowserModule,

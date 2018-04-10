@@ -40,12 +40,12 @@ export class LoginService {
 
   // 注册审核确认(普通人员)
   public goAuditInvite(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/doAuditByInvite', {params});
   }
 
   // 注册审核确认(管理员)
   public goAuditMaster(params): Observable<any> {
+    console.log(params);
     return this.http.get('/api/user/doAuditMaster', {params});
   }
 
@@ -82,6 +82,12 @@ export class LoginService {
   // 删除会员
   public delPerson(params): Observable<any> {
     return this.http.get('/api/user/deleteUserById', {params});
+  }
+
+  // 密码修改
+  public passwordUp(params): Observable<any> {
+    console.log(params);
+    return this.http.get('/api/user/editPwd', {params});
   }
 }
 export class LoginInfo {
