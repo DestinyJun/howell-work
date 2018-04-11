@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   public personList: Array<any>;
   // 被操会员的id
   public personNameId: number;
-  public personPwd: {};
   // 修改信息表单
   public formModel: FormGroup;
   public formModelUp: FormGroup;
@@ -49,6 +48,7 @@ export class HomeComponent implements OnInit {
   ) {
     this.loginName = this.localSessionStorage.get('loginName');
     this.id = parseInt(this.localSessionStorage.get('id'), 10);
+    console.log(this.id);
     this.loginNamePersonJson = new LoginNamePersonJson(this.loginName, 1, 5);
     // 修改信息表单
     this.formModel = fb.group({
@@ -124,6 +124,7 @@ export class HomeComponent implements OnInit {
   }
   //  获取修改密码ID
   public personDelId(personId): void {
+    console.log(personId);
     this.personNameId = personId;
   }
   // 修改密码确认
