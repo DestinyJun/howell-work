@@ -31,11 +31,4 @@ export class LocalStorageService {
   }
 }
 
-// 分页参数数据类型
-export  class LoginNamePersonJson {
-  constructor (
-    public loginName: string,
-    public page: number,
-    public rows: number
-  ) {}
-}
+

@@ -1,9 +1,9 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {LoginService} from '../shared/login.service';
+import {LoginNamePersonJson, LoginService} from '../shared/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LocalStorageService, LoginNamePersonJson} from '../shared/local-storage.service';
+import {LocalStorageService} from '../shared/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   // 直接好友、上级人数
   public friendPersonList: Array<{}>;
   public friendUpList: Array<{}>;
-  // 获取所有会员参数
+  // 获取所有会员参数 分页
   public loginNamePersonJson: LoginNamePersonJson;
   constructor(
     private router: Router,
@@ -140,6 +140,34 @@ export class HomeComponent implements OnInit {
           } else {
             window.alert(value.msg);
           }
+        }
+      );
+    }
+  }
+  // 上一页
+  public previousPage(): void {
+    if (this.loginNamePersonJson.page <= 1) {
+      this.loginNamePersonJson.page = 1;
+    } else {
+      this.loginNamePersonJson.page = this.loginNamePersonJson.page - 1;
+      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+        (value) => {
+          this.personList = value.rows;
+        }
+      );
+    }
+  }
+  // 下一页
+  public nextPage(): void {
+    if (this.loginNamePersonJson.page >= this.num) {
+      console.log(this.loginNamePersonJson.page);
+      this.loginNamePersonJson.page = this.num;
+    } else {
+      this.loginNamePersonJson.page = this.loginNamePersonJson.page + 1;
+      console.log(this.loginNamePersonJson.page);
+      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+        (value) => {
+          this.personList = value.rows;
         }
       );
     }
