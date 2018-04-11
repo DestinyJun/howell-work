@@ -48,7 +48,6 @@ export class AuditListComponent implements OnInit {
     // 升级审核列表
     this.loginService.getUpAudit(this.loginName).subscribe(
       (val) => {
-        console.log(val.rows);
         this.upList = val.rows;
       }
     );

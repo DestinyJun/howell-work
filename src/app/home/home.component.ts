@@ -14,10 +14,10 @@ export class HomeComponent implements OnInit {
   // 用户登陆信息字段
   public id: number;
   public loginName: string;
+  // 用户基本信息字段
   public name: string;
   public weixin: string;
   public phone: string;
-  // 用户基本信息字段
   public grade: number;
   public inviteCode: string;
   public inviteStatus: number;
@@ -47,14 +47,8 @@ export class HomeComponent implements OnInit {
     private loginService: LoginService,
     private localSessionStorage: LocalStorageService,
   ) {
-    // console.log(this.loginService.goStore());
-    // this.loginName = this.routeInfo.snapshot.params['loginName'];
-    // this.id = this.routeInfo.snapshot.params['id'];
     this.loginName = this.localSessionStorage.get('loginName');
     this.id = parseInt(this.localSessionStorage.get('id'), 10);
-    this.name = this.localSessionStorage.get('name');
-    this.weixin = this.localSessionStorage.get('weixin');
-    // this.loginNameJson = {loginName: this.loginName};
     this.loginNamePersonJson = new LoginNamePersonJson(this.loginName, 1, 5);
     // 修改信息表单
     this.formModel = fb.group({
@@ -67,11 +61,12 @@ export class HomeComponent implements OnInit {
     });
     // 会员信息
     this.loginService.getPerson({loginName: this.loginName}).subscribe((data) => {
+      this.name = data[0].name;
+      this.weixin = data[0].weixin;
       this.grade = data[0].grade;
       this.inviteCode = data[0].inviteCode;
       this.inviteStatus = data[0].inviteStatus;
       this.masterStatus = data[0].masterStatus;
-      // this.localSessionStorage.set('grade', this.grade.toString());
       if (this.inviteStatus === 1 && this.masterStatus === 1) {
         if ( this.grade === 0 ) {
           this.gradeTxt = '管理员';
@@ -87,7 +82,6 @@ export class HomeComponent implements OnInit {
     // 获取所有会员列表
      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
        (val) => {
-         console.log(val);
          this.personList = val.rows;
        }
      );
@@ -128,15 +122,14 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  //  获取修改ID
+  //  获取修改密码ID
   public personDelId(personId): void {
     this.personNameId = personId;
   }
-  // 修改确认
+  // 修改密码确认
   public personDel(): void {
     if (this.formModelUp.valid) {
       this.formModelUp.value['id'] = this.personNameId;
-      console.log(this.formModelUp.value);
       this.loginService.passwordUp(this.formModelUp.value).subscribe(
         value => {
           console.log(value);

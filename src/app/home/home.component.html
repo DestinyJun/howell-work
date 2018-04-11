@@ -47,14 +47,14 @@
     <div class="member-info-btn">
       <button [hidden]="this.grade === 0" class="btn btn-danger" (click)="openModal(upGrade)">申请升级</button>
       <button class="btn btn-primary" (click)="openPerson(person)" style="margin-right: 10px">修改资料</button>
-      <button class="btn btn-success">修改密码</button>
+      <button class="btn btn-success" (click)="personDelId();openModal(personWin)">修改密码</button>
     </div>
     <hr>
   </div>
   <!--好友状况-->
   <div class="friends-status">
     <div class="friends-status-title">
-      <span>好友状况</span>
+      <span>好友状况</span>id
     </div>
     <div class="friends-status-table">
       <table class="table">
@@ -162,14 +162,6 @@
     <h5 class=" text-info text-center">修改密码</h5>
     <hr>
     <form [formGroup]="formModelUp"  class="forms" novalidate>
-      <!--<div class="form-group">
-        <label for="name">旧密码</label>
-        <input formControlName="oldPwd" type="text" class="form-control" id="oldPwd">
-        <div [hidden]="formModel.get('name').valid || formModel.get('name').untouched">
-          <div style="color: red" [hidden]="!formModel.hasError('required', 'name')">必填项</div>
-          <div style="color: red" [hidden]="!formModel.hasError('minlength', 'name')">昵称最小长度为3</div>
-        </div>
-      </div>-->
       <div class="form-group">
         <label for="weixin">新密码</label>
         <input formControlName="pwd" type="text" class="form-control" id="pwd">

@@ -4,14 +4,6 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class LoginService {
-  // 用户信息字段
-  public loginInfo: LoginInfo;
-  public getStore(obj): void {
-    this.loginInfo = obj;
-  }
-  public goStore(): LoginInfo {
-    return this.loginInfo;
-  }
   constructor(private http: HttpClient) { }
   // 登陆
   public getLogin(params): Observable<any> {
@@ -27,7 +19,6 @@ export class LoginService {
   }
   // 修改信息
   public modifiedData(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/updatePersonal', {params});
   }
   // 获取注册审核列表（普通人员）
@@ -47,7 +38,6 @@ export class LoginService {
 
   // 注册审核确认(管理员)
   public goAuditMaster(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/doAuditMaster', {params});
   }
 
@@ -88,7 +78,6 @@ export class LoginService {
 
   // 密码修改
   public passwordUp(params): Observable<any> {
-    console.log(params);
     return this.http.get('/api/user/editPwd', {params});
   }
 }
