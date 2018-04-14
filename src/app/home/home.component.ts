@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   public personList: Array<any>;
   // 被操会员的id
   public personNameId: number;
+  public num: number;
   // 修改信息表单
   public formModel: FormGroup;
   public formModelUp: FormGroup;
@@ -61,6 +62,7 @@ export class HomeComponent implements OnInit {
     });
     // 会员信息
     this.loginService.getPerson({loginName: this.loginName}).subscribe((data) => {
+      console.log(data);
       this.name = data[0].name;
       this.weixin = data[0].weixin;
       this.grade = data[0].grade;
@@ -82,6 +84,7 @@ export class HomeComponent implements OnInit {
     // 获取所有会员列表
      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
        (val) => {
+         this.num = val.total;
          this.personList = val.rows;
        }
      );
@@ -159,9 +162,9 @@ export class HomeComponent implements OnInit {
   }
   // 下一页
   public nextPage(): void {
-    if (this.loginNamePersonJson.page >= this.num) {
+    if (this.loginNamePersonJson.page >= Math.ceil(this.num / 5)) {
       console.log(this.loginNamePersonJson.page);
-      this.loginNamePersonJson.page = this.num;
+      this.loginNamePersonJson.page = Math.ceil(this.num / 5);
     } else {
       this.loginNamePersonJson.page = this.loginNamePersonJson.page + 1;
       console.log(this.loginNamePersonJson.page);
