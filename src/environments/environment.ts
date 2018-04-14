@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  weixin: '开发环境'
+  weixin: '开发种......'
 };

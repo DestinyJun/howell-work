@@ -9,6 +9,6 @@ import {environment} from '../environments/environment';
 export class AppComponent {
   title = 'app';
   constructor() {
-    console.log('微信号是：' + environment.weixin);
+    console.log('当前产品状态是：' + environment.weixin);
   }
 }
