@@ -61,7 +61,6 @@ export class AuditListComponent implements OnInit {
 
   // 注册审核确认
   public onAudistClick(): void {
-    console.log('1');
     if (this.grade > 0 ) {
       // 注册普通审核确认
       this.loginService.goAuditInvite({id: this.modalId}).subscribe(

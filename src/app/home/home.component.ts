@@ -49,20 +49,13 @@ export class HomeComponent implements OnInit {
   ) {
     this.loginName = this.localSessionStorage.get('loginName');
     this.id = parseInt(this.localSessionStorage.get('id'), 10);
-    console.log(this.id);
     this.loginNamePersonJson = new LoginNamePersonJson(this.loginName, 1, 5);
-    // 修改信息表单
-    this.formModel = fb.group({
-      name: [this.name, [Validators.required, Validators.minLength(3)]],
-      weixin: [this.weixin, [Validators.required]]
-    });
     // 修改密码表单
     this.formModelUp = fb.group({
       pwd: ['', [Validators.required]]
     });
     // 会员信息
     this.loginService.getPerson({loginName: this.loginName}).subscribe((data) => {
-      console.log(data);
       this.name = data[0].name;
       this.weixin = data[0].weixin;
       this.grade = data[0].grade;
@@ -79,6 +72,11 @@ export class HomeComponent implements OnInit {
       } else {
         this.gradeTxt = '未审核';
       }
+      // 修改信息表单
+      this.formModel = fb.group({
+        name: [this.name, [Validators.required, Validators.minLength(3)]],
+        weixin: [this.weixin, [Validators.required]]
+      });
     });
 
     // 获取所有会员列表
@@ -109,17 +107,23 @@ export class HomeComponent implements OnInit {
   public openPerson(person: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(person);
   }
-  public onSubmit(): void {
-    const paramsGroup = this.formModel.value;
-    paramsGroup.id = this.id;
-    this.loginService.modifiedData(paramsGroup).subscribe((date) => {
-      alert(date.msg);
-    });
+  // 修改个人资料
+  public upPersonMsg(): void {
+    this.formModel.value.id = this.id;
+    console.log(this.formModel.value);
+    if (this.formModel.valid) {
+      console.log(1);
+      this.loginService.modifiedData(this.formModel.value).subscribe((date) => {
+        alert(date.msg);
+      });
+    }
   }
+  // 提交升级
   public clickUpGrade(): void {
     this.loginService.GradeUp({loginName: this.loginName}).subscribe(
       (value) => {
         if (value.success) {
+          window.location.reload();
           window.alert(value.msg);
         }
       }
@@ -127,7 +131,6 @@ export class HomeComponent implements OnInit {
   }
   //  获取修改密码ID
   public personDelId(personId): void {
-    console.log(personId);
     this.personNameId = personId;
   }
   // 修改密码确认
@@ -136,7 +139,6 @@ export class HomeComponent implements OnInit {
       this.formModelUp.value['id'] = this.personNameId;
       this.loginService.passwordUp(this.formModelUp.value).subscribe(
         value => {
-          console.log(value);
           if (value.success) {
             window.location.reload();
             window.alert(value.msg);
@@ -151,6 +153,7 @@ export class HomeComponent implements OnInit {
   public previousPage(): void {
     if (this.loginNamePersonJson.page <= 1) {
       this.loginNamePersonJson.page = 1;
+      window.alert('已经数第一页了');
     } else {
       this.loginNamePersonJson.page = this.loginNamePersonJson.page - 1;
       this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
@@ -163,11 +166,10 @@ export class HomeComponent implements OnInit {
   // 下一页
   public nextPage(): void {
     if (this.loginNamePersonJson.page >= Math.ceil(this.num / 5)) {
-      console.log(this.loginNamePersonJson.page);
       this.loginNamePersonJson.page = Math.ceil(this.num / 5);
+      window.alert('这是最后一页');
     } else {
       this.loginNamePersonJson.page = this.loginNamePersonJson.page + 1;
-      console.log(this.loginNamePersonJson.page);
       this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
         (value) => {
           this.personList = value.rows;
