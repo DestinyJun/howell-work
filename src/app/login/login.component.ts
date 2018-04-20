@@ -35,11 +35,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
   public onSubmit() {
     if (this.myFromModule.valid) {
+      console.log(this.myFromModule.value);
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
           // 本地存储信息
           for ( const i in data.obj) {
-            this.localSessionStorage.set(i, data.obj[i]);
+            if (data.obj.hasOwnProperty(i)) {
+              this.localSessionStorage.set(i, data.obj[i]);
+            }
           }
           this.router.navigate(['/home']);
         } else {

@@ -8,7 +8,7 @@
   <h4 class="text-danger">扫码注册，欢迎加入{{name}}的团队！</h4>
   <qrcode [qrdata]="localhostPathUrl" [size]="256" [level]="'L'">
     <style>
-
     </style>
   </qrcode>
+  <button class="btn btn-info" [routerLink]="['/login']" style="margin-top:20px ">已有账号？请点击登陆</button>
 </div>

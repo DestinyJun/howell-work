@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
       this.masterStatus = data[0].masterStatus;
       if (this.inviteStatus === 1 && this.masterStatus === 1) {
         if ( this.grade === 0 ) {
-          this.gradeTxt = '管理员';
+          this.gradeTxt = '10';
           this.personState = false;
         } else {
           this.gradeTxt =  this.grade.toString();
