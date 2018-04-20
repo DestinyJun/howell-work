@@ -8,7 +8,8 @@
 </div>
 <div class="center-image">
   <i></i>
-  <span class="text-danger text-left">您目前的等级是【{{grade}}】级，下一级升级为【{{grade+1}}】级需支付300元红包，如需升级请点击“申请升级”按钮,升级后将有资格结交更多朋友。</span>
+  <span class="text-danger text-left" [hidden]="grade===0">您目前的等级是【{{grade}}】级，下一级升级为【{{grade+1}}】级需支付300元红包，如需升级请点击“申请升级”按钮,升级后将有资格结交更多朋友。</span>
+  <span class="text-danger text-left" [hidden]="!(grade===0)">您当前的级数是10级，恭喜您成为我们的顶级会员！！！</span>
 </div>
 <div class="container">
   <!--会员资料-->
