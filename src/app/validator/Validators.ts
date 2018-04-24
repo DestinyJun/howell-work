@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 
 // 自定义校验器之校验手机号码是否合法
 export function mobileValidators (control: FormControl): any {
-  var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
   let valid = myreg.test(control.value);
   return valid ? null : {mobile: true};
 }

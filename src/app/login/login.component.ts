@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
   public onSubmit() {
     if (this.myFromModule.valid) {
-      console.log(this.myFromModule.value);
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
           // 本地存储信息
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-      alert('用户名或者密码不能为空');
+      alert('用户名不合法或用户名或者密码不能为空');
     }
  }
 }

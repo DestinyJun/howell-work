@@ -2,7 +2,7 @@ import {Component, OnInit, TemplateRef, } from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {LocationStrategy} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
-import {LoginService} from '../../shared/login.service';
+import {LoginNamePersonJson, LoginService} from '../../shared/login.service';
 
 @Component({
   selector: 'app-audit-list',
@@ -20,6 +20,8 @@ export class AuditListComponent implements OnInit {
   public auditList: Array<any>;
   public upList: Array<any>;
   public modalRef: BsModalRef;
+  public num: number;
+  public loginNamePersonJson: LoginNamePersonJson;
   constructor(
     private routeInfo: ActivatedRoute,
     private loginService: LoginService,
@@ -29,17 +31,21 @@ export class AuditListComponent implements OnInit {
     this.loginNameValue = this.routeInfo.snapshot.params['loginName'];
     this.grade = this.routeInfo.snapshot.params['grade'];
     this.loginName = {loginName: this.loginNameValue};
+    this.loginNamePersonJson = new LoginNamePersonJson(this.loginNameValue, 1, 5);
     if (this.grade > 0 ) {
       // 注册审核列表(普通人）
       this.loginService.getAuditDataInvite(this.loginName).subscribe(
         (val) => {
+          this.num = val.total;
           this.auditList = val.rows;
         }
       );
     } else {
       // 注册审核列表(管理员）
-      this.loginService.getAuditDataMaster(this.loginName).subscribe(
+      this.loginService.getAuditDataMaster(this.loginNamePersonJson).subscribe(
         (val) => {
+          console.log(val);
+          this.num = val.total;
           this.auditList = val.rows;
         }
       );
@@ -48,6 +54,7 @@ export class AuditListComponent implements OnInit {
     // 升级审核列表
     this.loginService.getUpAudit(this.loginName).subscribe(
       (val) => {
+        this.num = val.total;
         this.upList = val.rows;
       }
     );
@@ -114,5 +121,61 @@ export class AuditListComponent implements OnInit {
     this.location.back();
   }
 
+  // 注册上一页
+  public previousPageRegister(): void {
+    if (this.loginNamePersonJson.page <= 1) {
+      this.loginNamePersonJson.page = 1;
+      window.alert('已经数第一页了');
+    } else {
+      this.loginNamePersonJson.page = this.loginNamePersonJson.page - 1;
+      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+        (value) => {
+          this.auditList = value.rows;
+        }
+      );
+    }
+  }
+  // 注册下一页
+  public nextPageRegister(): void {
+    if (this.loginNamePersonJson.page >= Math.ceil(this.num / 5)) {
+      this.loginNamePersonJson.page = Math.ceil(this.num / 5);
+      window.alert('这是最后一页');
+    } else {
+      this.loginNamePersonJson.page = this.loginNamePersonJson.page + 1;
+      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+        (value) => {
+          this.auditList = value.rows;
+        }
+      );
+    }
+  }
+  // 审核上一页
+  public previousPageAudit(): void {
+    if (this.loginNamePersonJson.page <= 1) {
+      this.loginNamePersonJson.page = 1;
+      window.alert('已经数第一页了');
+    } else {
+      this.loginNamePersonJson.page = this.loginNamePersonJson.page - 1;
+      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+        (value) => {
+          this.upList = value.rows;
+        }
+      );
+    }
+  }
+  // 审核下一页
+  public nextPageAudit(): void {
+    if (this.loginNamePersonJson.page >= Math.ceil(this.num / 5)) {
+      this.loginNamePersonJson.page = Math.ceil(this.num / 5);
+      window.alert('这是最后一页');
+    } else {
+      this.loginNamePersonJson.page = this.loginNamePersonJson.page + 1;
+      this.loginService.getPersonList(this.loginNamePersonJson).subscribe(
+        (value) => {
+          this.upList = value.rows;
+        }
+      );
+    }
+  }
 }
 

@@ -36,14 +36,18 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {}
   public onSubmit(): void {
-    this.loginService.getRegister(this.formModel.value).subscribe((date) => {
-      this.errorMessage = date.msg;
-      this.errorHidden = date.success;
-      if (date.success) {
-        window.alert(date.msg);
-        this.router.navigate(['/login']);
-      }
-    });
+    if (this.formModel.valid) {
+      this.loginService.getRegister(this.formModel.value).subscribe((date) => {
+        this.errorMessage = date.msg;
+        this.errorHidden = date.success;
+        if (date.success) {
+          window.alert(date.msg);
+          this.router.navigate(['/login']);
+        }
+      });
+    } else {
+      alert('用户名不合法或用户名或者密码不能为空');
+    }
   }
 }
 {}
