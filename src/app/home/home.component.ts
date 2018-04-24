@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   public inviteStatus: number;
   public masterStatus: number;
   public gradeTxt: string;
+  public upGradeStatus: number;
   // 人员管理判断
   public personState = true;
   public personList: Array<any>;
@@ -62,6 +63,7 @@ export class HomeComponent implements OnInit {
       this.inviteCode = data[0].inviteCode;
       this.inviteStatus = data[0].inviteStatus;
       this.masterStatus = data[0].masterStatus;
+      this.upGradeStatus = data[0].upgradeStatus;
       if (this.inviteStatus === 1 && this.masterStatus === 1) {
         if ( this.grade === 0 ) {
           this.gradeTxt = '10';
