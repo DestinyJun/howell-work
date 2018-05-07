@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   public loginSuccess: boolean;
   public loginMsg: string;
   private params = new HttpParams();
+  public formUsername: any;
+  public formPassword: any;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -30,10 +32,17 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required, mobileValidators]],
       password: ['' , [Validators.required, Validators.minLength(6)]]
     });
+    this.formUsername = this.myFromModule.get('username');
+    this.formPassword = this.myFromModule.get('password');
+    console.log(this.formUsername.valid);
+    this.myFromModule.valueChanges.subscribe(data => {
+      console.log(data);
+    });
   }
 
   ngOnInit() {}
   public onSubmit() {
+    console.log(this.myFromModule.get('username').invalid);
     if (this.myFromModule.valid) {
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
@@ -47,6 +56,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.loginSuccess = data.success;
           this.loginMsg = data.msg;
+          window.alert(this.loginMsg);
         }
       });
     } else {

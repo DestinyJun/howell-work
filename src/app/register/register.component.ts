@@ -27,6 +27,11 @@ export class RegisterComponent implements OnInit {
     this.formModel = fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       phone: ['', [mobileValidators]],
+      bank: ['', [mobileValidators]],
+      adress: ['', [mobileValidators]],
+      adress1: ['', [mobileValidators]],
+      adress2: ['', [mobileValidators]],
+      card: ['', [Validators.required]],
       weixin: ['', [Validators.required]],
       inviteCode: [this.inviteCode],
       password: ['', [Validators.required, Validators.minLength(6)]],

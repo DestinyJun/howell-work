@@ -23,3 +23,16 @@ export function equalValidators (group: FormGroup): any {
   let valid: boolean = (password.value === pconfirm.value);
   return valid ? null : {equal : {errmsg: '两次输入的密码不一致'}};
 }
+
+/**表单校验的八个状态
+ * valid：是否校验成功
+ invalid：是否校验失败
+ pending：是否表单正在提交过程中
+ pristine：是否数据依然处于原始状态，用户没有修改过
+ dirty：是否数据已经变脏了，被用户改过了
+ touched：是否被触摸或者点击过
+ untouched：是否未被触摸或者点击
+ enabled：是否启用状态
+ disabled：是否禁用状态
+ * */
+
