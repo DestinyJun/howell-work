@@ -34,7 +34,7 @@
         <tr>
           <td>我的级别</td>
           <td>
-            {{gradeTxt}}
+            <span class="lv">LV <span>{{gradeTxt}}</span></span>
           </td>
         </tr>
         <tr>
@@ -76,7 +76,7 @@
       </table>
     </div>
     <div class="member-info-btn">
-      <button [hidden]="this.grade === 0 || upGradeStatus === 1" class="btn btn-danger" (click)="openModal(upGrade)">申请升级</button>
+      <button class="btn btn-danger" (click)="openModal(upGrade)" *ngIf="!(grade===0 || upGradeStatus === 1 || inviteStatus === 0 || masterStatus === 0)">申请升级</button>
       <button class="btn btn-primary" (click)="openPerson(person)" style="margin-right: 10px">修改资料</button>
       <button class="btn btn-success" (click)="personDelId(id);openModal(personWin)">修改密码</button>
     </div>

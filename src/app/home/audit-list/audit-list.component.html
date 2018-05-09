@@ -28,10 +28,10 @@
             </td>
             <td>{{list.createTime}}</td>
             <td>
-              <p [hidden]="this.grade ==0" class="text-center" [ngClass]="{'text-danger': true}">{{list.inviteStatus===0?'未审核':'已审核'}}</p>
-              <button [hidden]="this.grade ==0 || list.inviteStatus===1" class="btn btn-danger" (click)="auditClick(list.id);openModal(audit)">点击审核</button>
-              <p [hidden]="this.grade !=0" class="text-center" [ngClass]="{'text-danger': true}">{{list.masterStatus===0?'未审核':'已审核'}}</p>
-              <button [hidden]="this.grade !=0 || list.masterStatus===1" class="btn btn-danger" (click)="auditClick(list.id);openModal(audit)">点击审核</button>
+              <p [hidden]="grade ==0" class="text-center" [ngClass]="{'text-danger': true}">{{list.inviteStatus===0?'未审核':'已审核'}}</p>
+              <button *ngIf="!(grade ==0 || list.inviteStatus===1)" class="btn btn-danger" (click)="auditClick(list.id);openModal(audit)">点击审核</button>
+              <p [hidden]="grade !=0" class="text-center" [ngClass]="{'text-danger': true}">{{list.masterStatus===0?'未审核':'已审核'}}</p>
+              <button *ngIf="!(grade !=0 || list.masterStatus===1)" class="btn btn-danger" (click)="auditClick(list.id);openModal(audit)">点击审核</button>
             </td>
         </tr>
         </tbody>
@@ -77,7 +77,7 @@
           <td>{{list.createTime}}</td>
           <td>
             <p class="text-center" [ngClass]="{'text-danger': true}">{{list.upgradeStatus===1?'未审核':'已通过'}}</p>
-            <button  [hidden]="list.upgradeStatus===2" class="btn btn-danger" (click)="upClick(list.id);openModal(upGrade)">点击审核</button>
+            <button  *ngIf="!(list.upgradeStatus===2 )" class="btn btn-danger" (click)="upClick(list.id);openModal(upGrade)">点击审核</button>
           </td>
         </tr>
         </tbody>
