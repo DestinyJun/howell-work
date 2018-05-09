@@ -136,6 +136,7 @@ export class HomeComponent implements OnInit {
       console.log(1);
       this.loginService.modifiedData(this.formModel.value).subscribe((date) => {
         alert(date.msg);
+        window.location.reload();
       });
     }
   }

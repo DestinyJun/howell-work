@@ -34,15 +34,15 @@ export class LoginComponent implements OnInit {
     });
     this.formUsername = this.myFromModule.get('username');
     this.formPassword = this.myFromModule.get('password');
-    console.log(this.formUsername.valid);
+    // console.log(this.formUsername.valid);
     this.myFromModule.valueChanges.subscribe(data => {
-      console.log(data);
+      // console.log(data);
     });
   }
 
   ngOnInit() {}
   public onSubmit() {
-    console.log(this.myFromModule.get('username').invalid);
+    // console.log(this.myFromModule.get('username').invalid);
     if (this.myFromModule.valid) {
       this.loginService.getLogin(this.myFromModule.value).subscribe((data) => {
         if (data.success) {
