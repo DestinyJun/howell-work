@@ -23,6 +23,11 @@ export class HomeComponent implements OnInit {
   public inviteStatus: number;
   public masterStatus: number;
   public gradeTxt: string;
+  public address: string;
+  public address1: string;
+  public address2: string;
+  public bank: string;
+  public card: number;
   public upGradeStatus: number;
   // 人员管理判断
   public personState = true;
@@ -33,6 +38,7 @@ export class HomeComponent implements OnInit {
   // 修改信息表单
   public formModel: FormGroup;
   public formModelUp: FormGroup;
+  public ckeckForm: any;
   // 模态框
   public modalRef: BsModalRef;
   // 直接好友、上级人数
@@ -57,7 +63,14 @@ export class HomeComponent implements OnInit {
     });
     // 会员信息
     this.loginService.getPerson({loginName: this.loginName}).subscribe((data) => {
+      console.log(data);
+      this.ckeckForm = data[0];
       this.name = data[0].name;
+      this.address = data[0].address;
+      this.address1 = data[0].address1;
+      this.address2 = data[0].address2;
+      this.bank = data[0].bank;
+      this.card = data[0].card;
       this.weixin = data[0].weixin;
       this.grade = data[0].grade;
       this.inviteCode = data[0].inviteCode;
@@ -76,9 +89,15 @@ export class HomeComponent implements OnInit {
       }
       // 修改信息表单
       this.formModel = fb.group({
-        name: [this.name, [Validators.required, Validators.minLength(3)]],
-        weixin: [this.weixin, [Validators.required]]
+        name: ['', [Validators.required, Validators.minLength(3)]],
+        weixin: ['', [Validators.required]],
+        address: ['', [Validators.required]],
+        address1: ['', [Validators.required]],
+        address2: ['', [Validators.required]],
+        bank: ['', [Validators.required]],
+        card: ['', [Validators.required]]
       });
+      this.formModel.reset(this.ckeckForm);
     });
 
     // 获取所有会员列表
@@ -134,6 +153,7 @@ export class HomeComponent implements OnInit {
   //  获取修改密码ID
   public personDelId(personId): void {
     this.personNameId = personId;
+
   }
   // 修改密码确认
   public personDel(): void {

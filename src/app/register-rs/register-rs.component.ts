@@ -26,7 +26,12 @@ export class RegisterRsComponent implements OnInit {
     this.errorHidden = true;
     this.formModel = fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      phone: ['', [mobileValidators]],
+      phone: ['', [Validators.required]],
+      bank: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      address1: ['', [Validators.required]],
+      address2: ['', [Validators.required]],
+      card: ['', [Validators.required]],
       weixin: ['', [Validators.required]],
       inviteCode: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],

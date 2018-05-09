@@ -11,7 +11,7 @@ import {RegisterRsComponent} from './register-rs/register-rs.component';
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterRsComponent},
+  {path: 'registerrs', component: RegisterRsComponent},
   {path: 'register/:invitecode/:name', component: RegisterComponent},
   {path: 'home', component: HomeComponent, canActivate: [LoginGuard]},
   {path: 'audit/:loginName/:grade', component: AuditListComponent},
