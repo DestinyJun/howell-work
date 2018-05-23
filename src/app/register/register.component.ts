@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {mobileValidators, mobileAsyncValidators, equalValidators } from '../validator/Validators';
 import {LoginService} from '../shared/login.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   public errorMessage: string;
   public errorHidden: boolean;
   public formModel: FormGroup;
+  public formModelTwo: FormGroup;
   constructor(
     private routerInfo: ActivatedRoute,
     private router: Router,
@@ -27,15 +28,18 @@ export class RegisterComponent implements OnInit {
     this.formModel = fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       phone: ['', [mobileValidators]],
-      bank: ['', [Validators.required]],
-      adress: ['', [Validators.required]],
-      adress1: ['', [Validators.required]],
-      adress2: ['', [Validators.required]],
-      card: ['', [Validators.required]],
-      weixin: ['', [Validators.required]],
-      inviteCode: [this.inviteCode],
+      bank: [''],
+      adress: [''],
+      adress1: [''],
+      adress2: [''],
+      card: [''],
+      weixin: ['', {disabled: true}, [Validators.required]],
+      inviteCode: [{value: this.inviteCode, disabled: true}, []],
       password: ['', [Validators.required, Validators.minLength(6)]],
       pconfirm: ['', [Validators.required, Validators.minLength(6)]]
+    });
+    this.formModelTwo = new FormGroup({
+      name: new FormControl({value: '', disabled: true}, [Validators.required, Validators.minLength(3)])
     });
   }
 

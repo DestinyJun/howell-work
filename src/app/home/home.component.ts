@@ -91,11 +91,11 @@ export class HomeComponent implements OnInit {
       this.formModel = fb.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         weixin: ['', [Validators.required]],
-        address: ['', [Validators.required]],
-        address1: ['', [Validators.required]],
-        address2: ['', [Validators.required]],
-        bank: ['', [Validators.required]],
-        card: ['', [Validators.required]]
+        address: [''],
+        address1: [''],
+        address2: [''],
+        bank: [''],
+        card: ['']
       });
       this.formModel.reset(this.ckeckForm);
     });
@@ -131,9 +131,7 @@ export class HomeComponent implements OnInit {
   // 修改个人资料
   public upPersonMsg(): void {
     this.formModel.value.id = this.id;
-    console.log(this.formModel.value);
     if (this.formModel.valid) {
-      console.log(1);
       this.loginService.modifiedData(this.formModel.value).subscribe((date) => {
         alert(date.msg);
         window.location.reload();
